@@ -1,4 +1,4 @@
-package rnee.aoc2023.rnee.aoc2023.n03;
+package rnee.aoc2023.n03;
 
 import java.io.FileReader;
 import java.io.LineNumberReader;

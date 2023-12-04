@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 public class Trebuchet {
     public static void main(String[] args) throws Exception {
-        try (FileReader fin = new FileReader("res/n01/calibration.txt"); Stream<String> lines = new LineNumberReader(fin).lines()) {
+        try (FileReader fin = new FileReader("res/n01/test2.txt"); Stream<String> lines = new LineNumberReader(fin).lines()) {
             long sum = lines.map(line -> {
                         int[] digits = replaceNumberStrings(line).chars().map(v->v-'0').toArray();
                         System.out.println(Arrays.toString(digits));
