@@ -48,21 +48,7 @@ public class Fertilizer {
                     Range seedRange = seeds.get(s);
 
                     // need to find all mappings that overlap with seedRange
-                    List<Mapping> m = findAllMapping(seedRange.src, mapping);
-
-                    while (seedRange != null) { // could encounter range that spans multiple maps
-                        // split seedRange to the mappings and non mappings
-
-
-                        if (seedRange.src+seedRange.length-1 >= m.source+m.length) {
-                            // reassign seedRange to split range
-                        } else {
-                            seedRange = null;
-                        }
-                    }
-
-                    // apply map - unmapped values remain unchanged
-                    seeds[s] = n;
+                    newSeedRanges.addAll(findAllMapping(seedRange, mapping));
                 }
 
                 // could explode number of ranges, sort and combine?
@@ -70,12 +56,48 @@ public class Fertilizer {
             }
 
             // print lowest value after final mapping
-            System.out.println(seeds.stream().min(Comparator.comparingLong(a->a.src)));
+            System.out.println(seeds.stream().min(Comparator.comparingLong(a->a.src)).get().src);
         }
     }
 
-    private static List<Mapping> findAllMapping(long src, List<Mapping> mapping) {
-        return new ArrayList<Mapping>();
+    private static List<Range> findAllMapping(Range range, List<Mapping> mappings) {
+        List<Range> ranges = new ArrayList<>();
+        for (Mapping m : mappings) {
+            if (range == null) {
+                // processed entire range
+                break;
+            }
+            if (m.source+m.length-1 < range.src) {
+                // skip mapping as it fully precedes range
+                continue;
+            }
+            if (range.src+range.length-1<m.source) {
+                // range precedes mapping, so break out of mapping loop
+                break;
+            }
+            // There is some overlap
+            Range prefix = range.src < m.source ? new Range(range.src, m.source-range.src) : null ;
+            Range remainder = range.src+range.length-1 > m.source+m.length-1 ? new Range(m.source+m.length, range.src+range.length-m.source-m.length) : null;
+            long overlapstart = Math.max(m.source, range.src);
+            long overlaplength = Math.min(range.src+range.length, m.source+m.length) - overlapstart;
+            Range overlap = new Range(overlapstart+m.difference, overlaplength);
+
+            // add overlap newly mapped range to ranges
+            ranges.add(overlap);
+            if (prefix != null) {
+                // add prefix without differencing
+                ranges.add(prefix);
+            }
+            // use remainder as next range
+            range = remainder;
+        }
+
+        if (range != null) {
+            // No more mappings so add remaining range
+            ranges.add(range);
+        }
+
+        return ranges;
     }
 
     private static Mapping findMapping(long n, List<Mapping> mapping) {
