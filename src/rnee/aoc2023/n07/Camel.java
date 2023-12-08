@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.function.IntUnaryOperator;
 
 public class Camel {
-    public static record Bid(Hand hand, int amount){}
-    public static record Hand(int strength, int[] cards){}
+    public record Bid(Hand hand, int amount){}
+    public record Hand(int strength, int[] cards){}
     public static void main(String[] args) throws Exception {
         try (FileReader fin = new FileReader("res/n07/bid.txt")) {
             // parse and order the bids by hand strength

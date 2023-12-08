@@ -18,7 +18,7 @@ public class Fertilizer {
         }
     }
 
-    public static record Range (long src, long length){}
+    public record Range (long src, long length){}
     public static void main(String[] args) throws Exception {
         try (FileReader fin = new FileReader("res/n05/almanac.txt")) {
             Iterator<String> almanac = new LineNumberReader(fin).lines().iterator();
