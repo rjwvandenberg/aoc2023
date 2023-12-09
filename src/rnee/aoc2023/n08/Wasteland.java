@@ -166,7 +166,7 @@ public class Wasteland {
             System.out.println(multiple);
 
 
-            // solution below still too bruteforce and doesn't result in an answer
+            // solution below still too bruteforce for part2 and doesn't result in an answer in a meaningful timeframe
             // nextZ gets filled with 12 stepnode->stepnode linked (6 from step 0 and 6 further endnode->endnode links
 
             // maintain priorityqueue with steps, node
@@ -223,7 +223,7 @@ public class Wasteland {
 //            assert(stepNodes.isEmpty());
 //            System.out.println(stepNodes.remove().step);
 
-            // bruteforce
+            // bruteforce part 1
 //            while (steps < MAX_STEPS && !nodes.stream().allMatch(Wasteland::isEnd)) {
 //                boolean goLeft = instructions.charAt(steps % instructions.length()) == 'L';
 //                nodes = nodes.stream().map(node -> {
